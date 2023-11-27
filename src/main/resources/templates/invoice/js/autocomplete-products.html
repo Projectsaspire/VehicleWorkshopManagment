@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<script type="text/javascript" th:fragment="javascript">
+		var total333 = 0;
+		var final1=0;
+
+		$(document).ready(function() {
+
+			var urlAjax = $("#urlAjax").val();
+			$("#search_product").autocomplete({
+				source : function(request, response) {
+					$.ajax({
+						url : urlAjax + request.term,
+						dataType : "json",
+						data : {
+							term : request.term
+						},
+						success : function(data) {
+							response($.map(data, function(item) {
+								return {
+									value : item.id,
+									label : item.name,
+									price : item.price,
+								};
+							}));
+						},
+					});
+				},
+				select : function(event, ui) {
+					//$("#search_product").val(ui.item.label);
+					
+					if(itemsHelper.hasProduct(ui.item.value)){
+						itemsHelper.incrementAmount(ui.item.value, ui.item.price);
+						return false;
+					}
+					
+					var line = $("#templateItemsInvoice").html();
+					
+					line = line.replace(/{ID}/g, ui.item.value);
+					line = line.replace(/{NAME}/g, ui.item.label);
+					line = line.replace(/{PRICE}/g, ui.item.price);
+					
+					$("#loadItemProducts tbody").append(line);
+					itemsHelper.calculateImport(ui.item.value, ui.item.price, 1);
+					
+					return false;
+				}
+			});
+			
+			$("form").submit(function(){
+				$("#templateItemsInvoice").remove();
+				return;
+			});
+			
+		});
+		
+		var itemsHelper = {
+				calculateImport: function(id, price, amount){
+					$("#total_import_" + id).html(parseInt(price) * parseInt(amount));
+					this.calculateFinalTotal();
+				},
+				
+				hasProduct: function(id){
+					
+					var result = false;
+					
+					$('input[name="item_id[]"]').each(function(){
+						if(parseInt(id) == parseInt($(this).val())) {
+							result = true;
+						}
+					});
+					
+					return result;
+				},
+				incrementAmount: function(id, price){
+					var amount = $("#amount_" + id).val() ? parseInt($("#amount_" + id).val()) : 0;
+					$("#amount_" + id).val(++amount);
+					this.calculateImport(id, price, amount);
+				},
+				deleteInvoiceLine: function(id){
+					$("#row_" + id).remove();
+					this.calculateFinalTotal();
+				},
+				calculateFinalTotal: function(){
+					var total22 = 0;
+					var total111 =0;
+					$('span[id^="total_import_"]').each(function(){
+						
+						total22 += parseInt($(this).html());
+						total111 = total22+final1;
+					 total333  =total22;
+					});
+					$('#product_total').html(total22);
+				
+					$('#final_total').html(total111);
+				}
+				
+				
+		}
+		
+	//Labour Part
+	
+		$(document).ready(function() {
+
+			var urlAjaxx = $("#urlAjaxx").val();
+			$("#search_labour").autocomplete({
+				source : function(request, response) {
+					$.ajax({
+						url : urlAjaxx + request.term,
+						dataType : "json",
+						data : {
+							term : request.term
+						},
+						success : function(data) {
+							response($.map(data, function(item) {
+								return {
+									value : item.id,
+									label : item.name,
+									price : item.price,
+								};
+							}));
+						},
+					});
+				},
+				select : function(event, ui) {
+					//$("#search_product").val(ui.item.label);
+					
+					if(itemsHelpers.hasProduct(ui.item.value)){
+						itemsHelpers.incrementAmount1(ui.item.value, ui.item.price);
+						return false;
+					}
+					
+					var line = $("#templateItemsInvoice1").html();
+					
+					line = line.replace(/{ID}/g, ui.item.value);
+					line = line.replace(/{NAME}/g, ui.item.label);
+					line = line.replace(/{PRICE}/g, ui.item.price);
+					
+					$("#loadItemLabours tbody").append(line);
+					itemsHelpers.calculateImport2(ui.item.value, ui.item.price, 1);
+					
+					return false;
+				}
+			});
+			
+			$("form").submit(function(){
+				$("#templateItemsInvoice1").remove();
+				return;
+			});
+			
+		});
+		$(function () {
+        $("#chkPassport").click(function () {
+            if ($(this).is(":checked")) {
+                $("#dvPassport").show();
+                $("#AddPassport").hide();
+            } else {
+                $("#dvPassport").hide();
+                $("#AddPassport").show();
+            }
+        });
+    });
+		
+		var itemsHelpers = {
+		
+				calculateImport2: function(id, price, amount){
+					$("#total_import1_" + id).html(parseInt(price) * parseInt(amount));
+					this.calculateFinalTotal1();
+				},
+				
+				hasProduct: function(id){
+					
+					var result = false;
+					
+					$('input[name="items_id[]"]').each(function(){
+						if(parseInt(id) == parseInt($(this).val())) {
+							result = true;
+						}
+					});
+					
+					return result;
+				},
+				incrementAmount1: function(id, price){
+					var amount1 = $("#amount1_" + id).val() ? parseInt($("#amount1_" + id).val()) : 0;
+					$("#amount1_" + id).val(++amount1);
+					this.calculateImport2(id, price, amount1);
+				},
+				deleteInvoiceLine: function(id){
+					$("#row1_" + id).remove();
+					this.calculateFinalTotal1();
+				},
+				calculateFinalTotal1: function(){
+					var total1 = 0;
+					var final=0;
+					
+					$('span[id^="total_import1_"]').each(function(){
+						
+						total1 += parseInt($(this).html());
+					 final =total1+total333;
+					 final1  = total1;
+					});
+					
+					$('#labour_total').html(total1);
+					$('#final_total').html(final);
+					
+				}
+		}
+		console.log(itemsHelper)
+		console.log(itemsHelpers)
+	</script>
+
+</body>
+</html>

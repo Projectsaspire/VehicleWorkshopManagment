@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+<meta charset="ISO-8859-1">
+<title>Add Labour</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div align="center">
+		<h1>New Labour</h1>
+		<br />
+		<form action="#" th:action="@{/savee}" th:object="${labour}"
+			method="post">
+
+			<table border="0" cellpadding="10">
+				<tr>
+					<td>Labour Name:</td>
+					<td><input type="text" th:field="*{name}" /></td>
+				</tr>
+				<tr>
+					<td>Labour Price:</td>
+					<td><input type="number" th:field="*{price}" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><button type="submit">Save</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

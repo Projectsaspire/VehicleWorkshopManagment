@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header bg-success text-white h3 pl-4" th:text="${title}"></div>
+
+			<!--<form th:action="@{/search}" method="get">
+				<input type="text" name="keyword" th:value="${keyword}"
+					placeholder="Find by Customer Name, Date & Vehicle No" size="50">
+				<button type="submit" class="btn btn-info">Search</button>
+				<button type="submit" class="btn btn-info">Reset</button>
+			</form>-->
+
+			<div class="card-body d-flex justify-content-center">
+
+				<form th:action="@{/form}" th:object="${client}" method="post" enctype="multipart/form-data"
+					class="col-lg-8 col-sm-12">
+
+					<div class="form-group row mb-0">
+						<a class="btn btn-sm mb-4 btn-link" th:href="@{'/list'}">
+							<i class="fas fa-arrow-left"></i>
+							<span th:text="' ' + #{text.global.volver}"></span>
+						</a>
+					</div>
+
+
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label" th:text="#{text.cliente.nombre}">Nombre</label>
+
+						<div class="col-sm-9">
+							<input type="text" th:field="*{firstName}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label" th:text="#{text.cliente.apellido}">Apellido</label>
+						<div class="col-sm-9">
+							<input type="text" th:field="*{lastName}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label" th:text="#{text.cliente.email}">Email</label>
+						<div class="col-sm-9">
+							<input type="text" th:field="*{email}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-3 col-form-label" th:text="#{text.cliente.createAt}">Fecha</label>
+						<div class="col-sm-9">
+							<input type="date" class="form-control" th:field="*{createAt}"
+								th:errorclass="'form-control alert-danger'" /> <small class="form-text text-danger"
+								th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></small>
+						</div>
+					</div>
+
+
+
+
+					<div class="card border-dark mb-12" style="max-width: 500rem;">
+						<div class="card-header">Customer Details:-</div>
+						<div class="card-body text-dark">
+							<div class="form-row">
+
+
+								<div class="form-group col-md-6">
+									<label class="control-label" for="vName"> Vehicle Number </label>
+									<input id="vNo" class="form-control" th:field="*{vNo}" required
+										autofocus="autofocus" />
+								</div>
+
+								<div class="form-group col-md-6">
+									<label class="control-label" for="vMake"> Vehicle Make </label>
+									<input id="vMake" class="form-control" th:field="*{vMake}" required
+										autofocus="autofocus" />
+								</div>
+
+								<div class="form-group col-md-6">
+									<label class="control-label" for="phone"> Phone Number
+
+									</label> <input id="phone" class="form-control" th:field="*{phone}" required
+										autofocus="autofocus" />
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<br>
+
+
+					<div class="card border-dark mb-12" style="max-width: 500rem;">
+						<div class="card-header">Vehicle Inventory:-</div>
+						<div class="card-body text-dark">
+
+							<div class="form-row">
+
+								<div class="form-group col-md-6">
+									<label class="control-label" for="vInventory"> Kms </label>
+									<input id="vInventory" class="form-control" th:field="*{vInventory}" required
+										autofocus="autofocus" />
+								</div>
+
+								<div class="form-group col-md-6">
+									<label class="control-label" for="vInventory">Fuel</label>
+									<select id="vInventory" class="form-control" th:field="*{vInventory}">
+										<option value="E" selected>E</option>
+										<option value="1/4">1/4</option>
+										<option value="1/2">1/2</option>
+										<option value="3/4">3/4</option>
+										<option value="F">F</option>
+									</select>
+
+								</div>
+
+								<!--<div class="form-group col-md-6">
+							<label class=" control-label" for="vInventory"> Upload Speedometer images (optional)
+							</label>
+							<input id="vInventory" class="form-control" type="file" name="vInventory" />
+						</div>-->
+
+							</div>
+						</div>
+					</div>
+					<br>
+
+
+
+
+					<div class="card border-dark mb-18" style="max-width: 500rem;">
+						<div class="card-header">Select Item's:-</div>
+						<div class="card-body text-dark">
+							<div class="form-row">
+
+								<div class="form-group col-md-3">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="sItem" th:field="*{sItem}"
+											name="sItem" value="Jack&Tommy">
+										<label class="form-check-label" for="sItem">
+											Jack & Tommy
+										</label>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="sItem" th:field="*{sItem}"
+											name="sItem" value="Stepney">
+										<label class="form-check-label" for="sItem">
+											Stepney
+										</label>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="sItem" th:field="*{sItem}"
+											name="sItem" value="ToolKit">
+										<label class="form-check-label" for="sItem">
+											Tool Kit
+										</label>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="sItem" th:field="*{sItem}"
+											name="sItem" value="Tape">
+										<label class="form-check-label" for="sItem">
+											Tape
+										</label>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="sItem" th:field="*{sItem}"
+											name="sItem" value="Battery">
+										<label class="form-check-label" for="sItem">
+											Battery
+										</label>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="sItem" th:field="*{sItem}"
+											name="sItem" value="MirrorRH">
+										<label class="form-check-label" for="sItem">
+											Mirror RH
+										</label>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="sItem" th:field="*{sItem}"
+											name="sItem" value="MirrorLH">
+										<label class="form-check-label" for="sItem">
+											Mirror LH
+										</label>
+									</div>
+								</div>
+								<div class="form-group col-md-3">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="sItem" th:field="*{sItem}"
+											name="sItem" value="Mats">
+										<label class="form-check-label" for="sItem">
+											Mats (No field)
+										</label>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+					<br>
+
+
+
+
+					<div class="card border-dark mb-12" style="max-width: 500rem;">
+						<div class="card-header">Customer complaints / Tasks to do:-</div>
+						<div class="card-body text-dark">
+							<div class="form-row">
+
+								<div class="form-group col-md-6">
+									<div class="form-check">
+
+										<textarea id="cusCompTask" class="form-control" rows="5"
+											th:field="*{cusCompTask}" required autofocus="autofocus"></textarea>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<br>
+
+
+
+					<div class="card border-dark mb-16" style="max-width: 500rem;">
+						<div class="card-header">Vehicle Image's:-</div>
+						<div class="card-body text-dark">
+							<div class="form-row">
+
+								<div class="form-group col-md-4">
+									<div class="form-check">
+										<label class="control-label" for="frontImg"> Front</label>
+										<input id="frontImg" class="form-control" type="file" name="file"
+											accept="image/*" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<div class="form-check">
+										<label class="control-label" for="rhSide"> Right-Hand Side </label>
+										<input id="rhSide" class="form-control" type="file" name="file1" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<div class="form-check">
+										<label class="control-label" for="lhSide"> Left-Hand Side </label>
+										<input id="lhSide" class="form-control" type="file" name="file2" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<div class="form-check">
+										<label class="control-label" for="rearImg"> Rear </label>
+										<input id="rearImg" class="form-control" type="file" name="file3" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<div class="form-check">
+										<label class="control-label" for="dashImg"> DashBoard </label>
+										<input id="dashImg" class="form-control" type="file" name="file4" />
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<div class="form-check">
+										<label class="control-label" for="dickyImg"> Dicky </label>
+										<input id="dickyImg" class="form-control" type="file" name="file5" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<div class="form-group row justify-content-around align-items-center">
+						<div class="col-6 col-lg-2">
+							<button type="submit" th:text="#{text.cliente.guardar}"
+								class="btn btn-md btn-success mt-4"></button>
+						</div>
+						<div class="col-6 col-lg-2">
+							<button type="submit" th:text="#{text.cliente.clear}"
+								class="btn btn-md mt-4 reset"></button>
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+
+	<script>
+		$(document).on('change', '.custom-file-input', function (e) {
+			$(this).next('.custom-file-label').html(e.target.files[0].name);
+		})
+
+		$(".reset").click(function () {
+			$(this).closest('form').find("input[type=text], textarea").val("");
+		});
+	</script>
+
+</body>
+
+</html>
