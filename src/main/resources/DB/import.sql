@@ -1,4 +1,3 @@
-
 create database vehicle-java;
 
 /* Populate table products */
